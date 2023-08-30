@@ -9,8 +9,6 @@ import express from 'express'
 const server = express();
 
 /* Setup TypeORMS */
-
-/* Setup TypeORMS */
 import { myDataSource } from './typeorms/app-data-source'
 
 try {
