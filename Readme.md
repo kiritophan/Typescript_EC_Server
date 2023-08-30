@@ -28,5 +28,23 @@ npm i dotenv
 
 - Tạo version api
 v1: version 1
-(/api/v1/users)
+(/apis/v1/users)
 
+## 1 TypeORM
+- Type ORMS
+- npm i typeorm mysql reflect-metadata --save
+
+## 2 Prisma
+
+- npm i prisma
+- npm i @prisma/client
+- Setup path schema.prisma in package.json =>  
+
+"prisma": {
+    "schema": "./src/prisma/schema.prisma"
+}
+
+- Setup create database, client:
+
+"db": "prisma db push",
+"client": "prisma generate"
