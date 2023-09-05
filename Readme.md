@@ -48,3 +48,12 @@ v1: version 1
 
 "db": "prisma db push",
 "client": "prisma generate"
+
+### Mail google
+
+npm i @types/nodemailer
+npm i mailgen
+
+### JWT
+
+npm i jsonwebtoken

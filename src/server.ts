@@ -8,21 +8,6 @@ import express from 'express'
 
 const server = express();
 
-/* Setup TypeORMS */
-import { myDataSource } from './typeorms/app-data-source'
-
-try {
-    myDataSource
-        .initialize()
-        .then(() => {
-            console.log("TypeORMS thành công!")
-        })
-        .catch((err) => {
-            console.error("TypeORMS thất bại!")
-        })
-} catch (err) {
-    console.log("Lỗi cú pháp!")
-}
 
 import cors from 'cors'
 server.use(cors());
@@ -32,69 +17,26 @@ server.use(cors());
 import bodyParser from 'body-parser';
 server.use(bodyParser.json())
 
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-import { Request, Response } from 'express';
+import MailServer, { templates } from './services/mail'
 
-server.use("/test", async (req: Request, res: Response) => {
-    try {
-        let newTest = prisma.tests.create({
-            data: {
-                title: "Test lần 1"
-            }
+server.use("/test", async (req, res) => {
+    console.log("String(req.headers.language)", String(req.headers.language));
+
+    let result = await MailServer.sendMail({
+        to: "phanvandau1510@gmail.com",
+        subject: "Thu nghiem templates",
+        html: templates.emailConfirm({
+            productName: 'Top top store',
+            productWebUrl: 'https://pokemoninmylife.com/',
+            receiverName: 'Welcome to Mail Ms',
+            confirmLink: 'rikkeisoft.com',
+            language: String(req.headers.language)
         })
 
-        let newUser = prisma.users.create({
-            data: {
-                userName: "admin",
-                password: "123",
-                avatar: "abc.png",
-                email: "1@",
-                isActive: true,
-                address: [
-                    {
-                        provinceId: 1,
-                        provinceName: "Tỉnh 1",
-                        districtId: 2,
-                        districtName: "Quân 2",
-                        wardCode: "123",
-                        wardName: "Xã 123",
-                        title: "Nhà Riêng",
-                        id: String(Date.now() * Math.random())
-                    },
-                    {
-                        provinceId: 1,
-                        provinceName: "Tỉnh 1",
-                        districtId: 2,
-                        districtName: "Quân 2",
-                        wardCode: "123",
-                        wardName: "Xã 123",
-                        title: "Công Ty",
-                        id: String(Date.now() * Math.random())
-                    }
-                ]
-            }
-        })
-
-        let result = await prisma.$transaction([newTest, newUser])
-        console.log("result", result)
-
-    } catch (err) {
-        console.log("lỗi gì rồi!")
-    }
-
-    // let allUser = await prisma.users.findMany();
-
-    // let user = await prisma.users.findUnique({
-    //     where: {
-    //         email: "1@"
-    //     }
-    // });
+    })
+    console.log("Result", result)
 })
 
-server.use("/test1", async (req: Request, res: Response) => {
-
-})
 
 import axios from 'axios';
 server.use("/authen-google", async (req, res) => {
@@ -111,10 +53,9 @@ server.use("/google", (req, res) => {
 
 
 /* Version api config */
-import apiConfig from './apis/index.api'
-server.use('/apis', apiConfig)
-
-
+import apiConfig from './routes'
+import guard from './middlewares/guard'
+server.use('/apis', guard.ipAuthen, apiConfig)
 
 /* Đẩy server ra port trên máy */
 server.listen(process.env.SERVER_PORT, () => {
