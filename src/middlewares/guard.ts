@@ -5,11 +5,13 @@ let ipList = [
     "58.187.191.113"
 ]
 export default {
-    ipAuthen: function (req: Request, res: Response, next: NextFunction) {
+    ipAuthen: function (req: Request, res: Response, next: NextFunction){
         let ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        if (ipList.find(ip => ip == String(ipAddress))) {
+
+        if(ipList.find(ip => ip == String(ipAddress))){
             return next();
         }
+
         return res.status(213).json({
             status: false,
             message: Text(String(req.headers.language)).ipAcceptDenine,

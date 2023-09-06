@@ -1,6 +1,6 @@
 import { TextType } from "./en";
 
-const data: TextType = {
+const data:TextType = {
     /* Mail */
     signature: "Chúc bạn một ngày tốt lành",
     hello: "Xin Chào",
@@ -9,12 +9,11 @@ const data: TextType = {
     instructionTwo: " vui lòng bấm vào liên kết bên dưới:",
     mailBtnText: "Xác thực email",
     outro: "Cần giúp hoặc có câu hỏi? Chỉ cần trả lời email này, chúng tôi rất sẵn lòng trợ giúp",
-    /* Api */
-    modelErr: "Loi Model",
+    modelErr: "Lỗi model",
     controllerErr: "Lỗi controller",
-    userNameDuplicate: "User Name Da ton tai",
-    emailDuplicate: "Email Da ton tai",
-    registerSuccess: "Dang ki thanh cong",
+    userNameDuplicate: "Tên đăng nhập đã tồn tại",
+    emailDuplicate: "Email đã tồn tại",
+    registerSuccess: "Đăng ký thành công",
     ipAcceptDenine: "Địa chỉ IP không được chấp nhận"
 }
 

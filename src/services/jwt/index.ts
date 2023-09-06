@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 export default {
     createToken: function (data: any, time: string) {
-        // time(ms)
         try {
             return jwt.sign(
                 data
@@ -12,20 +11,19 @@ export default {
             return false
         }
     },
-    verifyToken: function (token: string) {
+    verifyToken: function(token: string) {
         let result;
         try {
-            jwt.verify(token, String(process.env.JWT_KEY), function (err, decoded) {
-                if (err) {
+            jwt.verify(token, String(process.env.JWT_KEY), function(err, decoded) {
+                if(err) {
                     result = false
-                } else {
+                }else {
                     result = decoded
                 }
             });
             return result
-        } catch (err) {
+        }catch(err) {
             return false
         }
-
     }
 }

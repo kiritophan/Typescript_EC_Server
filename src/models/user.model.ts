@@ -11,8 +11,6 @@ export type Address = {
     title: string,
     id: string
 }
-
-
 export interface NewUser {
     email: string,
     userName: string,
@@ -33,11 +31,10 @@ export interface UpdateUser {
     lastName?: string,
     avatar?: string,
     createAt?: Date,
-    updateAt?: Date,
+    updateAt: Date,
     address?: Address[],
     isActive?: boolean
 }
-
 interface PrismaErr {
     code?: string,
     meta?: {
@@ -45,24 +42,22 @@ interface PrismaErr {
     },
     clientVersion?: string
 }
-
 export default {
-    register: async function (newUser: NewUser) {
+    register: async function(newUser: NewUser) {
         try {
             let user = await prisma.users.create({
                 data: newUser
             })
+
             return {
                 status: true,
                 data: user,
                 message: "registerSuccess"
             }
-
-        } catch (err) {
-            console.log("err", err);
-
+        }catch(err) {
             let message: string = "modelErr";
-            switch ((err as PrismaErr).meta?.target) {
+
+            switch((err as PrismaErr).meta?.target) {
                 case "users_userName_key":
                     message = "userNameDuplicate"
                     break
@@ -71,6 +66,7 @@ export default {
                     break
                 default:
             }
+
             return {
                 status: false,
                 data: null,
@@ -78,7 +74,7 @@ export default {
             }
         }
     },
-    update: async function (userId: string, data: UpdateUser) {
+    update: async function(userId: string, data: UpdateUser) {
         try {
             let user = await prisma.users.update({
                 where: {
@@ -86,25 +82,22 @@ export default {
                 },
                 data
             })
+
             return {
                 status: true,
                 data: user,
-                message: "Update success"
+                message: "Update thành công!"
             }
-
-        } catch (err) {
-            console.log("err", err);
-
+        }catch(err) {
             let message: string = "modelErr";
-            switch ((err as PrismaErr).meta?.target) {
-                case "users_userName_key":
-                    message = "userNameDuplicate"
-                    break
+
+            switch((err as PrismaErr).meta?.target) {
                 case "users_email_key":
                     message = "emailDuplicate"
                     break
                 default:
             }
+
             return {
                 status: false,
                 data: null,
@@ -112,20 +105,20 @@ export default {
             }
         }
     },
-    inforById: async function (userId: string) {
+    inforById: async function(userId: string) {
         try {
             let user = await prisma.users.findUnique({
                 where: {
                     id: userId
                 }
             })
+
             return {
                 status: true,
                 data: user,
-                message: "Lay thong tin thanh cong"
+                message: "Lấy thông tin thành công!"
             }
-
-        } catch (err) {
+        }catch(err) {
             let message: string = "modelErr";
             return {
                 status: false,
@@ -134,7 +127,7 @@ export default {
             }
         }
     },
-    inforByUserName: async function (userName: string) {
+    inforByUserName: async function(userName: string) {
         try {
             let user = await prisma.users.findUnique({
                 where: {
@@ -147,7 +140,7 @@ export default {
                 data: user,
                 message: "Lấy thông tin thành công!"
             }
-        } catch (err) {
+        }catch(err) {
             let message: string = "modelErr";
             return {
                 status: false,

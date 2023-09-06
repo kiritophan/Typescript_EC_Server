@@ -1,24 +1,22 @@
-import userModel, { NewUser, Address } from '../models/user.model'
-import { Request, Response } from 'express'
+import userModel, { NewUser } from "../models/user.model";
+import { Request, Response } from "express";
 import Text from '../text'
-import jwt from '../services/jwt'
 import mail, { templates } from "../services/mail";
+import jwt from "../services/jwt";
 import bcrypt from 'bcrypt'
-
 export default {
     register: async function (req: Request, res: Response) {
-        /* Hash Password : Băm mật khẩu*/
-        req.body.password = await bcrypt.hash(req.body.password, 10);
         try {
-
+            /* Hash Password */
+            req.body.password = await bcrypt.hash(req.body.password, 10);
             let newUser: NewUser = {
                 ...req.body,
                 createAt: new Date(Date.now()),
                 updateAt: new Date(Date.now()),
             }
-            console.log("new User 2", newUser);
-
             let modelRes = await userModel.register(newUser);
+
+            modelRes.message = (Text(String(req.headers.language)) as any)[modelRes.message];
 
             /* Mail */
             if (modelRes.status) {
@@ -28,20 +26,17 @@ export default {
                     html: templates.emailConfirm({
                         confirmLink: `${process.env.SERVER_URL}auth/email-confirm/${jwt.createToken(modelRes.data, "300000")}`,
                         language: String(req.headers.language),
-                        productName: "ASTO Store",
-                        productWebUrl: "rikkeisoft.com",
+                        productName: "Miêu Store",
+                        productWebUrl: "abc.com",
                         receiverName: modelRes.data?.firstName + '' + modelRes.data?.lastName
                     })
                 })
             }
-            modelRes.message = (Text(String(req.headers.language)) as any)[modelRes.message];
 
             return res.status(modelRes.status ? 200 : 213).json(modelRes);
         } catch (err) {
-
             return res.status(500).json({
-                // message: "Loi controller"
-                message: Text(String(req.headers.language)).controllerErr,
+                messsage: Text(String(req.headers.language)).controllerErr
             })
         }
     },
@@ -50,8 +45,8 @@ export default {
             let modelRes = await userModel.inforByUserName(req.body.userName);
             if (modelRes.status) {
                 if (!modelRes.data?.isActive) {
-                    return res.status(modelRes.status ? 200 : 213).json({
-                        message: "Tai khoan dang bi tam khoa"
+                    return res.status(213).json({
+                        message: "Người dùng đang bị tạm khóa"
                     });
                 }
                 let checkPassword = await bcrypt.compare(req.body.password, modelRes.data.password);
@@ -65,17 +60,13 @@ export default {
                     token: jwt.createToken(modelRes.data, "1d")
                 });
             }
-
-
             return res.status(modelRes.status ? 200 : 213).json({
-                message: "Nguoi dung khong ton tai"
+                message: "Người dùng không tồn tại!"
             });
         } catch (err) {
-
             return res.status(500).json({
-                // message: "Loi controller"
-                message: Text(String(req.headers.language)).controllerErr,
+                messsage: Text(String(req.headers.language)).controllerErr
             })
         }
-    }
+    },
 }

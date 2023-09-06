@@ -1,4 +1,3 @@
-
 const data = {
     /* Mail */
     hello: "Hi",
@@ -11,13 +10,11 @@ const data = {
     /* Api */
     modelErr: "Model err",
     controllerErr: "Controller err",
-    userNameDuplicate: "User Name already exits",
-    emailDuplicate: "Email already exits",
-    registerSuccess: "Register Success",
-
+    userNameDuplicate: "Username already exists",
+    emailDuplicate: "Email already exists",
+    registerSuccess: "Register Successfully",
     /* Middleware */
     ipAcceptDenine: "IP Address Not Accept"
-
 }
 export type TextType = typeof data;
 export default data

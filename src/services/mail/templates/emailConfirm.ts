@@ -16,11 +16,11 @@ function genEmailString(mailBody: MailBody) {
             link: mailBody.productWebUrl
         }
     });
-
+    
     let email = {
         body: {
             greeting: Text(mailBody.language).hello,
-            signature: Text(mailBody.language).signature,
+            signature:  Text(mailBody.language).signature,
             name: mailBody.receiverName,
             intro: Text(mailBody.language).intro,
             action: {
@@ -34,7 +34,7 @@ function genEmailString(mailBody: MailBody) {
             outro: `${Text(mailBody.language).outro}.`
         }
     };
-
+    
     return mailGenerator.generate(email);
 }
 

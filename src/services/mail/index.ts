@@ -20,14 +20,14 @@ export default {
                     pass: process.env.MS_PW
                 }
             });
-
+            
             await transporter.sendMail({
                 from: process.env.MS_USER,
                 ...mailOption
             });
 
             return true
-        } catch (err) {
+        }catch (err) {
             return false
         }
     }

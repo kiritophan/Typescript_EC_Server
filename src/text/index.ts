@@ -1,11 +1,10 @@
 import en from './en'
 import vi from './vi'
-import { TextType } from './en'
-
+import {TextType} from './en'
 
 export default (lang: string) => {
     let text: TextType;
-    switch (lang) {
+    switch(lang) {
         case 'en':
             text = en;
             break
