@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default {
-    create: async function(newProduct: any, productPictures: any) {
+    create: async function (newProduct: any, productPictures: any) {
         try {
             let product = await prisma.products.create({
                 data: {
@@ -25,7 +25,7 @@ export default {
                 message: "Create product ok!",
                 data: product
             }
-        }catch(err) {
+        } catch (err) {
             return {
                 status: false,
                 message: "Lỗi model",
