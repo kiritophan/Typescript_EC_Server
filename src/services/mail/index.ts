@@ -7,8 +7,10 @@ export interface MailOption {
     text?: string // Văn Bản
 }
 import emailConfirm from './templates/emailConfirm'
+import sendOtp from './templates/sendOtp'
 export const templates = {
-    emailConfirm: emailConfirm
+    emailConfirm: emailConfirm,
+    sendOtp
 }
 export default {
     sendMail: async (mailOption: MailOption) => {
@@ -20,14 +22,14 @@ export default {
                     pass: process.env.MS_PW
                 }
             });
-            
+
             await transporter.sendMail({
                 from: process.env.MS_USER,
                 ...mailOption
             });
 
             return true
-        }catch (err) {
+        } catch (err) {
             return false
         }
     }
