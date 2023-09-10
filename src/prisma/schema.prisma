@@ -8,53 +8,54 @@ generator client {
 }
 
 model users {
-   id String @id @default(auto()) @map("_id") @db.ObjectId
-   email String @unique
-   emailConfirm Boolean @default(false)
-   userName String @unique
-   password String
-   firstName String
-   lastName String
-   avatar   String @default("https://www.slotcharter.net/wp-content/uploads/2020/02/no-avatar.png")
-   isActive Boolean @default(true)
-   createAt DateTime @default(now())
-   updateAt DateTime @default(now())
-   address  Address[]
-   isAdmin Boolean @default(false)
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  email        String    @unique
+  emailConfirm Boolean   @default(false)
+  userName     String    @unique
+  password     String
+  firstName    String
+  lastName     String
+  avatar       String    @default("https://www.slotcharter.net/wp-content/uploads/2020/02/no-avatar.png")
+  isActive     Boolean   @default(true)
+  createAt     DateTime  @default(now())
+  updateAt     DateTime  @default(now())
+  address      Address[]
+  isAdmin      Boolean   @default(false)
 }
+
 type Address {
-    provinceId Int
-    provinceName String
-    districtId Int
-    districtName String
-    wardCode String
-    wardName String
-    title String
-    id String
+  provinceId   Int
+  provinceName String
+  districtId   Int
+  districtName String
+  wardCode     String
+  wardName     String
+  title        String
+  id           String
 }
 
 model categories {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String @unique
-  active Boolean @default(false)
-  avatar String @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7KoaBf3WfEy9DoNEp6nsnBHQffJNPOOY1XdoaHj9yaw&s")
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  title    String     @unique
+  active   Boolean    @default(false)
+  avatar   String     @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7KoaBf3WfEy9DoNEp6nsnBHQffJNPOOY1XdoaHj9yaw&s")
   products products[]
 }
 
 model products {
- id String @id @default(auto()) @map("_id") @db.ObjectId
- name String
- avatar String @default("https://www.slotcharter.net/wp-content/uploads/2020/02/no-avatar.png")
- price Float
- des String
- categoryId String @db.ObjectId
- category categories @relation(fields: [categoryId], references: [id])
- productPictures productPictures[]
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  avatar          String            @default("https://www.slotcharter.net/wp-content/uploads/2020/02/no-avatar.png")
+  price           Float
+  des             String
+  categoryId      String            @db.ObjectId
+  category        categories        @relation(fields: [categoryId], references: [id])
+  productPictures productPictures[]
 }
 
 model productPictures {
-   id String @id @default(auto()) @map("_id") @db.ObjectId
-   path String
-   productId String  @db.ObjectId
-   product products @relation(fields: [productId], references: [id])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  path      String
+  productId String   @db.ObjectId
+  product   products @relation(fields: [productId], references: [id])
 }

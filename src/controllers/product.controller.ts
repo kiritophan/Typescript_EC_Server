@@ -23,7 +23,7 @@ export default {
         let productPictures = [];
         for (let i = 1; Number(i) < Number(req.files?.length); i++) {
             console.log("(req.files as any)[i]", (req.files as any)[i])
-            let path = await uploadFileToStorage((req.files as any)[i], "md4", fs.readFileSync((req.files as any)[i].path))
+            let path = await uploadFileToStorage((req.files as any)[i], "typescript", fs.readFileSync((req.files as any)[i].path))
             fs.unlink((req.files as any)[i].path, (err) => {
 
             })
@@ -33,7 +33,6 @@ export default {
         }
         try {
             let modelRes = await productModel.create(newProduct, productPictures);
-            console.log("modelRes", modelRes)
             return res.status(modelRes.status ? 200 : 213).json(modelRes);
         } catch (err) {
             return res.status(500).json({
@@ -41,5 +40,37 @@ export default {
             })
         }
 
+    },
+
+    findByCategory: async function (req: Request, res: Response) {
+        try {
+            let modelRes = await productModel.findByCategory(req.params.categoryId);
+            console.log("modelRes", modelRes)
+            return res.status(modelRes.status ? 200 : 213).json(modelRes);
+        } catch (err) {
+            return res.status(500).json({
+                message: "Lỗi controller"
+            })
+        }
+    },
+    findMany: async function (req: Request, res: Response) {
+        try {
+            let modelRes = await productModel.findMany();
+            return res.status(modelRes.status ? 200 : 213).json(modelRes);
+        } catch (err) {
+            return res.status(500).json({
+                message: "Lỗi controller"
+            })
+        }
+    },
+    findById: async function (req: Request, res: Response) {
+        try {
+            let modelRes = await productModel.findById(String(req.params.productId));
+            return res.status(modelRes.status ? 200 : 213).json(modelRes);
+        } catch (err) {
+            return res.status(500).json({
+                message: "Lỗi controller"
+            })
+        }
     }
 }

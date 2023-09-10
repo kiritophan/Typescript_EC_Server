@@ -26,8 +26,8 @@ export default {
                     html: templates.emailConfirm({
                         confirmLink: `${process.env.SERVER_URL}auth/email-confirm/${jwt.createToken(modelRes.data, "300000")}`,
                         language: String(req.headers.language),
-                        productName: "Miêu Store",
-                        productWebUrl: "abc.com",
+                        productName: "Nội thất nhà xinh",
+                        productWebUrl: "noithatnhaxinh.com",
                         receiverName: modelRes.data?.firstName + '' + modelRes.data?.lastName
                     })
                 })
@@ -56,7 +56,7 @@ export default {
                     });
                 }
                 return res.status(200).json({
-                    message: "Đăng nhập thành công",
+                    message: "Đăng nhập thành công, chuyển đến trang chủ?",
                     token: jwt.createToken(modelRes.data, "1d")
                 });
             }
